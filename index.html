@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Installing &#8212; httpsuite 0.1.0 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <title>Installing &#8212; httpsuite 1.0.5 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -54,7 +54,7 @@
 </p><p><code class="docutils literal notranslate"><span class="pre">httpsuite</span></code> is a collection of tools to parse, manipulate, and compile raw HTTP messages. Built to be used as a dependency for larger projects that require parsing, modifying, requesting, and responding to raw HTTP requests.</p>
 <div class="section" id="installing">
 <h1>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>pip install httpsuite
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">httpsuite</span>
 </pre></div>
 </div>
 <p>This package was intentionally built to have no external dependencies outside of the <a class="reference external" href="https://docs.python.org/3/library/">Python Standard Library</a>. If you plan on contribute, then make sure to install the <code class="docutils literal notranslate"><span class="pre">dev-requirements.txt</span></code>.</p>
@@ -73,7 +73,7 @@
     <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
     <span class="n">target</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
     <span class="n">protocol</span><span class="o">=</span><span class="s2">&quot;HTTP/1.1&quot;</span><span class="p">,</span>
-    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Host&quot;</span><span class="p">:</span> <span class="s2">&quot;www.google.com&quot;</span><span class="p">,</span> <span class="s2">&quot;Connection&quot;</span><span class="p">:</span> <span class="s2">&quot;keep-alive&quot;</span><span class="p">,},</span>
+    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Host&quot;</span><span class="p">:</span> <span class="s2">&quot;www.google.com&quot;</span><span class="p">,</span> <span class="s2">&quot;Connection&quot;</span><span class="p">:</span> <span class="s2">&quot;keep-alive&quot;</span><span class="p">,</span> <span class="s2">&quot;Content-Length&quot;</span><span class="p">:</span> <span class="s2">&quot;18&quot;</span><span class="p">},</span>
     <span class="n">body</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;hello&quot;</span><span class="p">:</span> <span class="s2">&quot;world&quot;</span><span class="p">}),</span>
 <span class="p">)</span>
 
@@ -81,7 +81,7 @@
     <span class="n">protocol</span><span class="o">=</span><span class="s2">&quot;HTTP/1.1&quot;</span><span class="p">,</span>
     <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
     <span class="n">status_msg</span><span class="o">=</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span>
-    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Host&quot;</span><span class="p">:</span> <span class="s2">&quot;www.google.com&quot;</span><span class="p">,</span> <span class="s2">&quot;Connection&quot;</span><span class="p">:</span> <span class="s2">&quot;keep-alive&quot;</span><span class="p">,},</span>
+    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Host&quot;</span><span class="p">:</span> <span class="s2">&quot;www.google.com&quot;</span><span class="p">,</span> <span class="s2">&quot;Connection&quot;</span><span class="p">:</span> <span class="s2">&quot;keep-alive&quot;</span><span class="p">,</span> <span class="s2">&quot;Content-Length&quot;</span><span class="p">:</span> <span class="s2">&quot;18&quot;</span><span class="p">},</span>
     <span class="n">body</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;hello&quot;</span><span class="p">:</span> <span class="s2">&quot;world&quot;</span><span class="p">}),</span>
 <span class="p">)</span>
 </pre></div>
@@ -94,6 +94,7 @@
         <span class="sa">b</span><span class="s2">&quot;GET / HTTP/1.1</span><span class="se">\r\n</span><span class="s2">&quot;</span>
         <span class="sa">b</span><span class="s2">&quot;Host: www.google.com</span><span class="se">\r\n</span><span class="s2">&quot;</span>
         <span class="sa">b</span><span class="s2">&quot;Connection: keep-alive</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+        <span class="sa">b</span><span class="s2">&quot;Content-Length: 18</span><span class="se">\r\n</span><span class="s2">&quot;</span>
         <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span>
         <span class="sa">b</span><span class="s1">&#39;{&quot;hello&quot;: &quot;world&quot;}&#39;</span>
     <span class="p">)</span>
@@ -104,6 +105,7 @@
         <span class="sa">b</span><span class="s2">&quot;HTTP/1.1 200 OK</span><span class="se">\r\n</span><span class="s2">&quot;</span>
         <span class="sa">b</span><span class="s2">&quot;Host: www.google.com</span><span class="se">\r\n</span><span class="s2">&quot;</span>
         <span class="sa">b</span><span class="s2">&quot;Connection: keep-alive</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+        <span class="sa">b</span><span class="s2">&quot;Content-Length: 18</span><span class="se">\r\n</span><span class="s2">&quot;</span>
         <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span>
         <span class="sa">b</span><span class="s1">&#39;{&quot;hello&quot;: &quot;world&quot;}&#39;</span>
     <span class="p">)</span>
@@ -126,10 +128,10 @@
 </div>
 <p>Once the object is modified to the users preference, utilizing the <code class="docutils literal notranslate"><span class="pre">Request</span></code> and <code class="docutils literal notranslate"><span class="pre">Response</span></code> object is as easy as calling a property (specifically <code class="docutils literal notranslate"><span class="pre">.raw</span></code>):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">raw</span><span class="p">)</span>
-<span class="c1"># &gt;&gt;&gt; b&#39;POST / HTTP/1.1\r\nHost: www.google.com\r\nConnection: keep-alive\r\nAccept: */*\r\n\r\n{&quot;hello&quot;: &quot;world&quot;}&#39;</span>
+<span class="c1"># &gt;&gt;&gt; b&#39;POST / HTTP/1.1\r\nHost: www.google.com\r\nConnection: keep-alive\r\nContent-Length: 18\r\nAccept: */*\r\n\r\n{&quot;hello&quot;: &quot;world&quot;}&#39;</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">raw</span><span class="p">)</span>
-<span class="c1"># &gt;&gt;&gt; b&#39;HTTP/1.1 100 Continue\r\nHost: www.google.com\r\nConnection: keep-alive\r\n\r\n{&quot;hello&quot;: &quot;world&quot;}&#39;</span>
+<span class="c1"># &gt;&gt;&gt; b&#39;HTTP/1.1 100 Continue\r\nHost: www.google.com\r\nConnection: keep-alive\r\nContent-Length: 18\r\n\r\n{&quot;hello&quot;: &quot;world&quot;}&#39;</span>
 </pre></div>
 </div>
 <p>Uniquely, the <code class="docutils literal notranslate"><span class="pre">__str__</span></code> method for <code class="docutils literal notranslate"><span class="pre">Request</span></code> and <code class="docutils literal notranslate"><span class="pre">Response</span></code> return the objects with arrows to make obvious of its type:</p>
@@ -137,9 +139,10 @@
 <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>→ POST / HTTP/1.1
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>→ POST / HTTP/1.1
 → Host: www.google.com
 → Connection: keep-alive
+→ Content-Length: 18
 → Accept: */*
 →
 → {&quot;hello&quot;: &quot;world&quot;}
@@ -147,6 +150,7 @@
 ← HTTP/1.1 100 Continue
 ← Host: www.google.com
 ← Connection: keep-alive
+← Content-Length: 18
 ←
 ← {&quot;hello&quot;: &quot;world&quot;}
 </pre></div>
@@ -203,8 +207,12 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="misc/Versions.html">Versions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="misc/Versions.html#v1"><code class="docutils literal notranslate"><span class="pre">v1</span></code></a><ul>
-<li class="toctree-l2"><a class="reference internal" href="misc/Versions.html#id1"><code class="docutils literal notranslate"><span class="pre">1.0.1</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="misc/Versions.html#id2"><code class="docutils literal notranslate"><span class="pre">1.0.0</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/Versions.html#id1"><code class="docutils literal notranslate"><span class="pre">1.0.5</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/Versions.html#id2"><code class="docutils literal notranslate"><span class="pre">1.0.4</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/Versions.html#id3"><code class="docutils literal notranslate"><span class="pre">1.0.3</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/Versions.html#id4"><code class="docutils literal notranslate"><span class="pre">1.0.2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/Versions.html#id5"><code class="docutils literal notranslate"><span class="pre">1.0.1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/Versions.html#id6"><code class="docutils literal notranslate"><span class="pre">1.0.0</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="misc/License.html">License</a></li>

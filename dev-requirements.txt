@@ -1,6 +1,5 @@
 pytest
 pytest-cov
 sphinx
-sphinx-rtd-theme
 coveralls
-m2r
+m2r2

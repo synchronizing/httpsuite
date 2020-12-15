@@ -17,33 +17,8 @@ import sphinx
 
 sys.path.insert(0, os.path.abspath("../.."))
 
-# -- Monkey Patch for m2r -----------------------------------------------------
-# https://github.com/miyakogi/m2r/issues/51#issuecomment-618285433
-
-
-def monkeypatch(cls):
-    """ decorator to monkey-patch methods """
-
-    def decorator(f):
-        method = f.__name__
-        old_method = getattr(cls, method)
-        setattr(
-            cls,
-            method,
-            lambda self, *args, **kwargs: f(old_method, self, *args, **kwargs),
-        )
-
-    return decorator
-
-
-@monkeypatch(sphinx.registry.SphinxComponentRegistry)
-def add_source_parser(_old_add_source_parser, self, *args, **kwargs):
-    # signature is (parser: Type[Parser], **kwargs), but m2r expects
-    # the removed (str, parser: Type[Parser], **kwargs).
-    if isinstance(args[0], str):
-        args = args[1:]
-    return _old_add_source_parser(self, *args, **kwargs)
-
+# PyLint complains, but the interpreter should be able to find this on run.
+from httpsuite import __version__
 
 # -- Project information -----------------------------------------------------
 
@@ -52,7 +27,7 @@ copyright = "2020, Felipe Faria"
 author = "Felipe Faria"
 
 # The full version, including alpha/beta/rc tags
-release = "0.1.0"
+release = __version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -78,7 +53,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx_rtd_theme",
-    "m2r",
+    "m2r2",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

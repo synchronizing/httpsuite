@@ -6,6 +6,10 @@ Versions
 ``v1``
 *********
 
+``1.0.4``
+=========
+  * Fixed documentation bug relating to ```m2r```.
+
 ``1.0.3``
 =========
   * Fixed PyLint errors.

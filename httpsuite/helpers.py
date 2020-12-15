@@ -137,6 +137,14 @@ class Item:
         """
         return hash(self._item)
 
+    def __bool__(self) -> bool:
+        """Boolean representation of the current ```Item```.
+
+        Returns:
+            bool: Bool representation of the ```Item```.
+        """
+        return bool(self._item)
+
     def __str__(self) -> str:
         """String representation of the ``Item`` object.
 
@@ -158,15 +166,20 @@ class Headers(dict):
                                       `Headers` object.
     """
 
-    def __init__(self, value: Union[dict, Headers] = {}) -> None:
+    def __init__(self, value: Union[None, dict, Headers] = None) -> None:
+        if value is None:
+            value = {}
+
         if not isinstance(value, dict) and not isinstance(value, Headers):
             raise TypeError("headers can only be of type that inherits from 'dict'.")
 
         if isinstance(value, dict):
-            for k, v in value.items():
-                self[Item(k)] = Item(v)
+            for key, value in value.items():
+                self[Item(key)] = Item(value)
 
-    def _compile(self, format: str = "bytes") -> Union[str, bytes]:
+        super().__init__()
+
+    def _compile(self, frmt: str = "bytes") -> Union[str, bytes]:
         r"""Compiles the ``Headers`` into the passed format.
 
         Notes:
@@ -183,15 +196,15 @@ class Headers(dict):
             Union[str, bytes]: String or bytes representation of the ``Headers``.
         """
 
-        if format == "bytes":
+        if frmt == "bytes":
             data = b""
-            for k, v in self.items():
-                data += b"%b: %b\r\n" % (k.raw, v.raw)
+            for key, value in self.items():
+                data += b"%b: %b\r\n" % (key.raw, value.raw)
 
-        elif format == "string":
+        elif frmt == "string":
             data = ""
-            for k, v in self.items():
-                data += "{}: {}\r\n".format(k.string, v.string)
+            for key, value in self.items():
+                data += "{}: {}\r\n".format(key.string, value.string)
 
             if data[-2:] == "\r\n":
                 data = data[: len(data) - 2]
@@ -205,7 +218,7 @@ class Headers(dict):
         Returns:
             str: String representation of the ``Headers``.
         """
-        return self._compile(format="string")
+        return self._compile(frmt="string")
 
     @property
     def raw(self) -> bytes:
@@ -217,7 +230,7 @@ class Headers(dict):
         Returns:
             bytes: Bytes representation of the ``Headers``.
         """
-        return self._compile(format="bytes")
+        return self._compile(frmt="bytes")
 
     def __add__(self, other: Union[dict, Headers]) -> Headers:
         """Adds item with passed ``other`` and returns new ``Headers``.

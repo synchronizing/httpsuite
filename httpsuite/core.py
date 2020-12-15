@@ -36,14 +36,14 @@ class Message(abc.ABC):
 
         if isinstance(headers, Headers):
             self._headers = headers
-        elif headers == None:
+        elif headers is None:
             self._headers = Headers()
         else:
             self._headers = Headers(headers)
 
         self._body = Item(body)
 
-    def _compile(self, format: str = "bytes", arrow: str = "") -> str:
+    def _compile(self, frmt: str = "bytes", arrow: str = "") -> str:
         """Compiles the ``Message`` into the given format.
 
         Note:
@@ -58,32 +58,32 @@ class Message(abc.ABC):
             Union[str, bytes]: String or bytes representation of the ``Message``.
         """
 
-        if format not in ("str", "bytes"):
+        if frmt not in ("str", "bytes"):
             raise TypeError("format must either be str, or byte.")
 
         self._compile_first_line()
 
-        if format == "bytes":
+        if frmt == "bytes":
             first_line = self._first_line.raw
             body = self._body.raw
             headers = b""
-        elif format == "str":
+        elif frmt == "str":
             first_line = self._first_line.string
             body = self._body.string
             headers = ""
 
-        for k, v in self.headers.items():
-            if format == "bytes":
-                headers += b"%b: %b\r\n" % (k.raw, v.raw)
-            elif format == "str":
-                headers += "{}: {}\r\n".format(k.string, v.string)
+        for key, value in self.headers.items():
+            if frmt == "bytes":
+                headers += b"%b: %b\r\n" % (key.raw, value.raw)
+            elif frmt == "str":
+                headers += "{}: {}\r\n".format(key.string, value.string)
 
-        if format == "bytes":
+        if frmt == "bytes":
             msg = b"%b\r\n%b\r\n%b" % (first_line, headers, body)
-        elif format == "str":
+        elif frmt == "str":
             msg = "{}\r\n{}\r\n{}".format(first_line, headers, body)
 
-        if format == "str" and arrow:
+        if frmt == "str" and arrow:
             arrow_msg = [
                 "{} {}".format(arrow, line) for line in msg.splitlines() if line
             ]
@@ -155,7 +155,7 @@ class Message(abc.ABC):
             str: String representation of the ``Message``.
         """
 
-        return self._compile(format="str")
+        return self._compile(frmt="str")
 
     @property
     def raw(self) -> bytes:
@@ -167,7 +167,7 @@ class Message(abc.ABC):
         Returns:
             bytes: Bytes representation of the ``Message``.
         """
-        return self._compile(format="bytes")
+        return self._compile(frmt="bytes")
 
     @property
     def first_line(self) -> Item:
@@ -247,9 +247,9 @@ class Message(abc.ABC):
 
         try:
             instance = cls(*args)
-        except TypeError:  # pragma: no cover
+        except TypeError as error:  # pragma: no cover
             err = "You cannot use parse with type Message. Use Request or Response."
-            raise TypeError(err)
+            raise TypeError(err) from error
 
         return instance
 
@@ -264,7 +264,7 @@ class Message(abc.ABC):
             str: String representation of the ``Message``.
         """
 
-        return self._compile(format="str", arrow=arrow)
+        return self._compile(frmt="str", arrow=arrow)
 
 
 class Request(Message):

@@ -28,14 +28,14 @@ class Test_headers_init:
 class Test_headers_compile_string_raw:
     @pytest.mark.parametrize("other", headers)
     def test_headers_compile_string(self, other):
-        compiled = other._compile(format="string")
+        compiled = other._compile(frmt="string")
         assert isinstance(compiled, str)
         assert compiled in ("str: str", "bytes: bytes")
         assert other.string == compiled
 
     @pytest.mark.parametrize("other", headers)
     def test_headers_compile_bytes(self, other):
-        compiled = other._compile(format="bytes")
+        compiled = other._compile(frmt="bytes")
         assert isinstance(compiled, bytes)
         assert compiled in (b"str: str\r\n", b"bytes: bytes\r\n")
         assert other.raw == compiled
@@ -146,4 +146,4 @@ class Test_headers_str:
 
     def test_headers_str_compiled(self):
         for header in headers:
-            assert str(header) == header._compile(format="string")
+            assert str(header) == header._compile(frmt="string")

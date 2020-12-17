@@ -5,7 +5,7 @@ from __future__ import annotations
 import abc
 from typing import NoReturn, Union
 
-from httpsuite.helpers import Headers, Item
+from .helpers import Headers, Item
 
 
 class Message(abc.ABC):
@@ -24,15 +24,15 @@ class Message(abc.ABC):
         body: Union[str, bytes, Item, None]: Body of the message.
     """
 
-    __slots__ = ["_first_line", "_headers", "_body"]
+    __slots__ = ["_first_line", "_protocol", "_headers", "_body"]
 
     def __init__(
         self,
-        first_line: Union[str, bytes, Item, None],
+        protocol: Union[str, bytes, Item],
         headers: Union[dict, Headers, None] = None,
         body: Union[str, bytes, Item, None] = None,
     ) -> None:
-        self._first_line = Item(first_line)
+        self._protocol = Item(protocol)
 
         if isinstance(headers, Headers):
             self._headers = headers
@@ -180,6 +180,37 @@ class Message(abc.ABC):
         self._compile_first_line()
         return self._first_line
 
+    @property
+    def protocol(self) -> Item:
+        r"""HTTP protocol of the ``Message``.
+
+        **Setter**:
+            *Args*:
+                value (:class:`dict`, :class:`httpsuite.helpers.Item`, :class:`None`): New protocol of the message.
+        **Getter**:
+            *Returns*:
+                :class:`httpsuite.helpers.Item`: An ``Item`` object that represents the HTTP message protocol.
+
+        Example:
+            .. code-block:: python
+
+                req = Request(method="GET", target="/", protocol="HTTP/1.1")
+                req.protocol = "HTTP/1.0"
+
+                resp = Response(protocol="HTTP/1.1", status=200, status_msg="OK")
+                resp.protocol = "HTTP/1.0"
+
+                print(req)
+                print(resp)
+
+            .. code-block::
+
+                → GET / HTTP/1.0
+                ← HTTP/1.0 200 OK
+
+        """
+        return self._protocol
+
     @headers.setter
     def headers(self, value: Union[dict, Headers, None]) -> None:
         if not isinstance(value, dict):
@@ -198,6 +229,10 @@ class Message(abc.ABC):
     def first_line(self, value: Union[str, bytes]) -> None:
         self._first_line = Item(value)
         self._parse_first_line()
+
+    @protocol.setter
+    def protocol(self, value: Union[str, bytes, Item, None]) -> None:
+        self._protocol = Item(value)
 
     @abc.abstractmethod
     def _compile_first_line(self) -> NoReturn:  # pragma: no cover
@@ -282,7 +317,7 @@ class Request(Message):
         body (Union[str, bytes, Item, None]): HTTP request body.
     """
 
-    __slots__ = ["_method", "_target", "_protocol"]
+    __slots__ = ["_method", "_target"]
 
     def __init__(
         self,
@@ -294,10 +329,11 @@ class Request(Message):
     ) -> None:
         self._method = Item(method)
         self._target = Item(target)
-        self._protocol = Item(protocol)
+
+        super().__init__(protocol, headers, body)
 
         first_line = (self._method.raw, self._target.raw, self._protocol.raw)
-        super().__init__(b"%b %b %b" % first_line, headers, body)
+        self._first_line = Item(b"%b %b %b" % first_line)
 
     def _compile_first_line(self) -> None:
         """ Sets the ``Request`` first line to ``method target protocol`` values. """
@@ -357,30 +393,6 @@ class Request(Message):
         """
         return self._target
 
-    @property
-    def protocol(self) -> Item:
-        r"""HTTP protocol of the ``Request``.
-
-        **Setter**:
-            *Args*:
-                value (:class:`dict`, :class:`httpsuite.helpers.Item`, :class:`None`): New protocol of the request.
-        **Getter**:
-            *Returns*:
-                :class:`httpsuite.helpers.Item`: A ``Item`` object that represents the HTTP request protocol.
-
-        Example:
-            .. code-block:: python
-
-               r = Request(method="GET", target="/", protocol="HTTP/1.1")
-               r.protocol = "HTTP/1.0"
-               print(r)
-
-            .. code-block::
-
-                → GET / HTTP/1.0
-        """
-        return self._protocol
-
     @method.setter
     def method(self, value: Union[str, bytes, Item, None]) -> None:
         self._method = Item(value)
@@ -388,10 +400,6 @@ class Request(Message):
     @target.setter
     def target(self, value: Union[str, bytes, Item, None]) -> None:
         self._target = Item(value)
-
-    @protocol.setter
-    def protocol(self, value: Union[str, bytes, Item, None]) -> None:
-        self._protocol = Item(value)
 
     def __str__(self) -> str:
         r"""String representation of the ``Request``.
@@ -437,7 +445,7 @@ class Response(Message):
         body (Union[str, bytes, Item, None]): HTTP request body.
     """
 
-    __slots__ = ["_protocol", "_status", "_status_msg"]
+    __slots__ = ["_status", "_status_msg"]
 
     def __init__(
         self,
@@ -447,12 +455,13 @@ class Response(Message):
         headers: Union[dict, Headers, None] = None,
         body: Union[str, bytes, Item, None] = None,
     ) -> None:
-        self._protocol = Item(protocol)
         self._status = Item(status)
         self._status_msg = Item(status_msg)
 
+        super().__init__(protocol, headers, body)
+
         first_line = self._protocol.raw, self._status.raw, self._status_msg.raw
-        super().__init__(b"%b %b %b" % first_line, headers, body)
+        self._first_line = Item(b"%b %b %b" % first_line)
 
     def _compile_first_line(self) -> None:
         """Sets the ``Response`` first line to ``protocol status status_msg``
@@ -467,30 +476,6 @@ class Response(Message):
         """
         first_line = self._first_line.raw.split(b" ")
         self.protocol, self.status, self.status_msg = first_line
-
-    @property
-    def protocol(self) -> Item:
-        r"""HTTP protocol of the ``Response``.
-
-        **Setter**:
-            *Args*:
-                value (:class:`dict`, :class:`httpsuite.helpers.Item`, :class:`None`): New protocol of the response.
-        **Getter**:
-            *Returns*:
-                :class:`httpsuite.helpers.Item`: A ``Item`` object that represents the HTTP response protocol.
-
-        Example:
-            .. code-block:: python
-
-               r = Response(protocol="HTTP/1.1", status=200, status_msg="OK")
-               r.protocol = "HTTP/1.0"
-               print(r)
-
-            .. code-block::
-
-                ← HTTP/1.0 200 OK
-        """
-        return self._protocol
 
     @property
     def status(self) -> Item:
@@ -541,10 +526,6 @@ class Response(Message):
                 ← HTTP/1.0 300 Continue
         """
         return self._status_msg
-
-    @protocol.setter
-    def protocol(self, value: Union[str, bytes, Item, None]) -> None:
-        self._protocol = Item(value)
 
     @status.setter
     def status(self, value: Union[str, bytes, Item, None]) -> None:

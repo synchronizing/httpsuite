@@ -1,4 +1,4 @@
-from httpsuite import Request, Response, Headers, info
+from httpsuite import Request, Response, Headers, __ENCODE__
 import pytest
 import json
 
@@ -57,7 +57,7 @@ objects_first_line = [request_first_line, response_first_line]
 class Test_message_getters:
     @pytest.mark.parametrize("zipped", zip(objects, objects_raw))
     def test_message_getter_string(self, zipped):
-        assert zipped[0].string == zipped[1].decode(info.ENCODE)
+        assert zipped[0].string == zipped[1].decode(__ENCODE__)
 
     @pytest.mark.parametrize("zipped", zip(objects, objects_raw))
     def test_message_getter_raw(self, zipped):
@@ -75,7 +75,7 @@ class Test_message_getters:
     @pytest.mark.parametrize("zipped", zip(objects, objects_body))
     def test_message_getter_body(self, zipped):
         assert zipped[0].body == zipped[1]
-        assert zipped[0].body == bytes(zipped[1], info.ENCODE)
+        assert zipped[0].body == bytes(zipped[1], __ENCODE__)
 
     @pytest.mark.parametrize("message", objects)
     def test_message_getter_protocol(self, message):
@@ -135,8 +135,8 @@ class Test_message_setters:
 class Test_message_compile:
     def test_message_compile_response(self):
         with pytest.raises(TypeError):
-            assert response._compile(format="dict")
+            assert response._compile(frmt="dict")
 
     def test_message_compile_request(self):
         with pytest.raises(TypeError):
-            assert request._compile(format="dict")
+            assert request._compile(frmt="dict")

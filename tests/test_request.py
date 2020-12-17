@@ -6,7 +6,9 @@ import pytest
 class Test_request_init_:
     def test_request_init_small(self):
         Request(
-            method="GET", target="google.com:80", protocol="HTTP/1.1",
+            method="GET",
+            target="google.com:80",
+            protocol="HTTP/1.1",
         )
 
     def test_request_init_medium(self):

@@ -13,13 +13,18 @@ class Test_response_init_:
             status=200,
             status_msg="OK",
             headers=Headers(
-                {"Host": "www.google.com", "Accept": "*/*", "Connection": "keep-alive",}
+                {
+                    "Host": "www.google.com",
+                    "Accept": "*/*",
+                    "Connection": "keep-alive",
+                }
             ),
             body=json.dumps({"hello": "world"}),
         )
 
     def test_init_wrong_type(self):
         with pytest.raises(TypeError):
+            # pylint: disable=unexpected-keyword-arg, no-value-for-parameter
             Response(method=None, target=None, protocol=None)
 
 
@@ -28,7 +33,11 @@ response = Response(
     status=200,
     status_msg="OK",
     headers=Headers(
-        {"Host": "www.google.com", "Accept": "*/*", "Connection": "keep-alive",}
+        {
+            "Host": "www.google.com",
+            "Accept": "*/*",
+            "Connection": "keep-alive",
+        }
     ),
     body=json.dumps({"hello": "world"}),
 )

@@ -15,7 +15,7 @@ Example:
 
 """
 
-from httpsuite.helpers import FrozenSet, TwoWayFrozenDict
+from .helpers import FrozenSet, TwoWayFrozenDict
 
 # Core Rules
 # rfc5234#appendix-B.1

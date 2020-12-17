@@ -10,7 +10,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Iterable, Union
 
-from httpsuite.info import ENCODE
+from . import __ENCODE__
 
 
 class Item:
@@ -41,7 +41,7 @@ class Item:
         ):
             raise TypeError("item must inherit from str, bytes, or int.")
         elif isinstance(item, str):
-            self._item = item.encode(ENCODE)
+            self._item = item.encode(__ENCODE__)
         elif isinstance(item, bytes):
             self._item = item
         elif isinstance(item, int):
@@ -58,7 +58,7 @@ class Item:
         Returns:
             str: String representation of the ``Item`` object.
         """
-        return self._item.decode(ENCODE)
+        return self._item.decode(__ENCODE__)
 
     @property
     def raw(self) -> bytes:
@@ -79,9 +79,9 @@ class Item:
             bool: Represents if the ``Item`` is equal to ``other``.
         """
         if isinstance(other, str):
-            item = other.encode(ENCODE)
+            item = other.encode(__ENCODE__)
         elif isinstance(other, int):
-            item = str(other).encode(ENCODE)
+            item = str(other).encode(__ENCODE__)
         else:
             item = other
 
@@ -98,9 +98,9 @@ class Item:
             the passed.
         """
         if isinstance(other, str):
-            item = other.encode(ENCODE)
+            item = other.encode(__ENCODE__)
         elif isinstance(other, int):
-            item = str(other).encode(ENCODE)
+            item = str(other).encode(__ENCODE__)
         elif isinstance(other, Item):
             item = other._item
         else:
@@ -118,9 +118,9 @@ class Item:
             Item: Returns current ``Item`` after addition with the passed.
         """
         if isinstance(other, str):
-            item = other.encode(ENCODE)
+            item = other.encode(__ENCODE__)
         elif isinstance(other, int):
-            item = str(other).encode(ENCODE)
+            item = str(other).encode(__ENCODE__)
         elif isinstance(other, Item):
             item = other._item
         else:
@@ -280,7 +280,7 @@ class Headers(dict):
             so the ``headers.User_Agent`` is equivalent to ``headers['User-Agent']``.
         """
 
-        key_mod = key.replace("_", "-").encode(ENCODE)
+        key_mod = key.replace("_", "-").encode(__ENCODE__)
         self[Item(key_mod)] = Item(value)
 
     def __getattr__(self, key: str) -> Item:
@@ -294,7 +294,7 @@ class Headers(dict):
             Item: `Item` corresponding to the passed key.
         """
 
-        key_mod = key.replace("_", "-").encode(ENCODE)
+        key_mod = key.replace("_", "-").encode(__ENCODE__)
 
         if key_mod in self:
             return self[key_mod]

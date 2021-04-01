@@ -28,7 +28,11 @@ To install just `httpsuite`:
 pip install httpsuite
 ```
 
-This package is depedent on [`toolbox`](https://github.com/shades-st/toolbox). If you plan on contribute, then make sure to install the `dev-requirements.txt`.
+This package is depedent on [`toolbox`](https://github.com/shades-st/toolbox). If you plan to contribute make sure to install the `dev` requirements:
+
+```
+pip install httpsuite[dev]
+```
 
 ## Documentation
 

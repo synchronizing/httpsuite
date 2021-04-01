@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Classes for parsing, modifying, and re-compiling HTTP messages. """
 
 import abc

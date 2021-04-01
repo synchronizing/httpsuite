@@ -88,7 +88,7 @@ class Message(abc.ABC):
         try:
             return cls(*args)
         except TypeError as error:  # pragma: no cover
-            err = f"Error parsing the message due to {error}."
+            err = "Error parsing the message due to {}.".format(error)
             raise TypeError(err) from error
 
     # ================ Compilation ================

@@ -173,7 +173,7 @@ class Headers(dict):
         Returns:
             String representation of the Headers.
         """
-        return f"Headers({self.string})"
+        return "Headers({})".format(self.string)
 
 
 @dataclass(frozen=True)

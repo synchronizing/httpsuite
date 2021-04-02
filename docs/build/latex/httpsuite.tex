@@ -247,17 +247,283 @@ on the left menu.
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{from} \PYG{n+nn}{httpsuite}\PYG{n+nn}{.}\PYG{n+nn}{http} \PYG{k+kn}{import} \PYG{n}{Message}\PYG{p}{,} \PYG{n}{Request}\PYG{p}{,} \PYG{n}{Response}
 \end{sphinxVerbatim}
+\phantomsection\label{\detokenize{module/http:module-httpsuite.http}}\index{module@\spxentry{module}!httpsuite.http@\spxentry{httpsuite.http}}\index{httpsuite.http@\spxentry{httpsuite.http}!module@\spxentry{module}}
+Classes for parsing, modifying, and re\sphinxhyphen{}compiling HTTP messages.
 
 
 \bigskip\hrule\bigskip
 
+\index{Message (class in httpsuite.http)@\spxentry{Message}\spxextra{class in httpsuite.http}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Message}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxbfcode{\sphinxupquote{Message}}}{\emph{abc.ABC}}{}
+Abstract class that contains shared methods and properties accessible by
+both the Request and Response classes.
+
+\begin{sphinxadmonition}{warning}{Warning:}
+This class is not intended to be used by itself. Note that Message is
+an abstraction that represents the shared properties and methods of
+both a Request and Response instance. All functions displayed in
+Message are, therefore, accessible by both the Request and Response
+classes.
+\end{sphinxadmonition}
+\index{\_\_init\_\_() (Message method)@\spxentry{\_\_init\_\_()}\spxextra{Message method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Message.__init__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_init\_\_}}}{\emph{\DUrole{n}{protocol}}, \emph{\DUrole{n}{headers}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{body}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Initializes an HTTP Message.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{protocol}} \textendash{} “\textless{}major\textgreater{}.\textless{}minor\textgreater{}” numbering scheme to indicate versions of the protocol.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{headers}} \textendash{} Collection of case\sphinxhyphen{}insensitive name followed by a colon (:).
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{body}} \textendash{} Data associated with the message.
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\begin{center}\sphinxstylestrong{Parse}
+\end{center}\index{parse() (Message.httpsuite.http.Message method)@\spxentry{parse()}\spxextra{Message.httpsuite.http.Message method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Message.httpsuite.http.Message.parse}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{httpsuite.http.Message.}}\sphinxbfcode{\sphinxupquote{parse}}}{\emph{\DUrole{n}{message}}}{}
+Parses the passed \sphinxcode{\sphinxupquote{messaged}} into a \sphinxcode{\sphinxupquote{cls}} instance (either a {\hyperref[\detokenize{module/http:httpsuite.http.Request}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{Request}}}}} or {\hyperref[\detokenize{module/http:httpsuite.http.Response}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{Response}}}}} object).
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{message}} \textendash{} The primative or object to convert into a Request or Response object.
+
+\item[{Returns}] \leavevmode
+An initialized object of class \sphinxcode{\sphinxupquote{cls}}.
+
+\item[{Raises}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{RequiredAwait}} \textendash{} Attempting to parse asynchronous object without ‘await’ statement.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\begin{center}\sphinxstylestrong{Properties}
+\end{center}
+\begin{sphinxadmonition}{note}{Note:}
+The \sphinxcode{\sphinxupquote{httpsuite.http.Message.raw()}} function will return the message with proper \sphinxcode{\sphinxupquote{\textbackslash{}r\textbackslash{}n}} escape characters. It can be
+used directly with \sphinxcode{\sphinxupquote{sockets}} or any low\sphinxhyphen{}level communication system that requires properly formatted HTTP
+messages.
+\end{sphinxadmonition}
+\index{string() (Message property)@\spxentry{string()}\spxextra{Message property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Message.string}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{string}}}
+String representation of the Message.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+Message as a string, without any arrows.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{raw() (Message property)@\spxentry{raw()}\spxextra{Message property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Message.raw}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{raw}}}
+Bytes representation of the Message.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+Message as a bytes, without arrows, properly escaped.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\begin{center}\sphinxstylestrong{HTTP}
+\end{center}
+\begin{sphinxadmonition}{note}{Note:}
+All HTTP properties are saved as an \sphinxcode{\sphinxupquote{Item}} type. Modification and comparissons can be done on the fly.
+\end{sphinxadmonition}
+\index{protocol() (Message property)@\spxentry{protocol()}\spxextra{Message property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Message.protocol}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{protocol}}}
+Protocol of the message.
+
+\end{fulllineitems}
+
+\index{headers() (Message property)@\spxentry{headers()}\spxextra{Message property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Message.headers}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{headers}}}
+Headers of the message.
+
+\end{fulllineitems}
+
+\index{body() (Message property)@\spxentry{body()}\spxextra{Message property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Message.body}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{body}}}
+Body of the message.
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
 
 
 \bigskip\hrule\bigskip
 
+\index{Request (class in httpsuite.http)@\spxentry{Request}\spxextra{class in httpsuite.http}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Request}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxbfcode{\sphinxupquote{Request}}}{\emph{\DUrole{n}{Message}}}{}~\index{\_\_init\_\_() (Request method)@\spxentry{\_\_init\_\_()}\spxextra{Request method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Request.__init__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_init\_\_}}}{\emph{\DUrole{n}{method}}, \emph{\DUrole{n}{target}}, \emph{\DUrole{n}{protocol}}, \emph{\DUrole{n}{headers}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{body}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Python object representation of an HTTP/1.x request.”
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{method}} \textendash{} Indicates the desired action on the server’s resource.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{target}} \textendash{} Resource location in the server for which the client is requesting.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{protocol}} \textendash{} “\textless{}major\textgreater{}.\textless{}minor\textgreater{}” numbering scheme to indicate versions of the protocol.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{headers}} \textendash{} Collection of case\sphinxhyphen{}insensitive name followed by a colon (:).
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{body}} \textendash{} Data associated with the message.
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{\_\_str\_\_() (Request method)@\spxentry{\_\_str\_\_()}\spxextra{Request method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Request.__str__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_str\_\_}}}{}{}
+String representation of the Request.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+Representation of the Request object with pretty\sphinxhyphen{}print (\(\rightarrow\)) arrows.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\begin{center}\sphinxstylestrong{HTTP}
+\end{center}
+\begin{sphinxadmonition}{note}{Note:}
+Note that Request is a child object of a Message and therefore has access to {\hyperref[\detokenize{module/http:httpsuite.http.Message.headers}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{httpsuite.http.Message.headers}}}}},
+{\hyperref[\detokenize{module/http:httpsuite.http.Message.headers}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{httpsuite.http.Message.headers}}}}}, and {\hyperref[\detokenize{module/http:httpsuite.http.Message.body}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{httpsuite.http.Message.body}}}}}.
+\end{sphinxadmonition}
+\index{method() (Request property)@\spxentry{method()}\spxextra{Request property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Request.method}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{method}}}
+Method of the HTTP request.
+
+\end{fulllineitems}
+
+\index{target() (Request property)@\spxentry{target()}\spxextra{Request property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Request.target}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{target}}}
+Target of the HTTP request.
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
 
 
 \bigskip\hrule\bigskip
+
+\index{Response (class in httpsuite.http)@\spxentry{Response}\spxextra{class in httpsuite.http}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Response}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxbfcode{\sphinxupquote{Response}}}{\emph{\DUrole{n}{protocol}}, \emph{\DUrole{n}{status}}, \emph{\DUrole{n}{status\_msg}}, \emph{\DUrole{n}{headers}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{body}\DUrole{o}{=}\DUrole{default_value}{None}}}{}~\index{\_\_init\_\_() (Response method)@\spxentry{\_\_init\_\_()}\spxextra{Response method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Response.__init__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_init\_\_}}}{\emph{\DUrole{n}{protocol}}, \emph{\DUrole{n}{status}}, \emph{\DUrole{n}{status\_msg}}, \emph{\DUrole{n}{headers}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{body}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Python object representation of an HTTP/1.x response.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{protocol}} \textendash{} “\textless{}major\textgreater{}.\textless{}minor\textgreater{}” numbering scheme to indicate versions of the protocol.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{status}} \textendash{} Numberical value designating a specific return value.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{status\_msg}} \textendash{} Message related to the status code.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{headers}} \textendash{} Collection of case\sphinxhyphen{}insensitive name followed by a colon (:).
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{body}} \textendash{} Data associated with the message.
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{\_\_str\_\_() (Response method)@\spxentry{\_\_str\_\_()}\spxextra{Response method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Response.__str__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_str\_\_}}}{}{}
+String representation of the Response.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+Representation of the Response object with pretty\sphinxhyphen{}print (←) arrows.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\begin{center}\sphinxstylestrong{HTTP}
+\end{center}
+\begin{sphinxadmonition}{note}{Note:}
+Note that Response is a child object of a Message and therefore has access to {\hyperref[\detokenize{module/http:httpsuite.http.Message.headers}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{httpsuite.http.Message.headers}}}}},
+{\hyperref[\detokenize{module/http:httpsuite.http.Message.headers}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{httpsuite.http.Message.headers}}}}}, and {\hyperref[\detokenize{module/http:httpsuite.http.Message.body}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{httpsuite.http.Message.body}}}}}.
+\end{sphinxadmonition}
+\index{status() (Response property)@\spxentry{status()}\spxextra{Response property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Response.status}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{status}}}
+Status of the HTTP response.
+
+\end{fulllineitems}
+
+\index{status\_msg() (Response property)@\spxentry{status\_msg()}\spxextra{Response property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/http:httpsuite.http.Response.status_msg}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{status\_msg}}}
+Status message of the HTTP response.
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
 
 
 
@@ -266,17 +532,165 @@ on the left menu.
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{from} \PYG{n+nn}{httpsuite}\PYG{n+nn}{.}\PYG{n+nn}{interface} \PYG{k+kn}{import} \PYG{n}{Item}\PYG{p}{,} \PYG{n}{Headers}\PYG{p}{,} \PYG{n}{TwoWayFrozenDict}\PYG{p}{,} \PYG{n}{FrozenSet}
 \end{sphinxVerbatim}
+\phantomsection\label{\detokenize{module/interface:module-httpsuite.interface}}\index{module@\spxentry{module}!httpsuite.interface@\spxentry{httpsuite.interface}}\index{httpsuite.interface@\spxentry{httpsuite.interface}!module@\spxentry{module}}
+Lower\sphinxhyphen{}level interfaces that \sphinxcode{\sphinxupquote{httpsuite}} depedents on.
 
 
 \bigskip\hrule\bigskip
 
+\index{Headers (class in httpsuite.interface)@\spxentry{Headers}\spxextra{class in httpsuite.interface}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.Headers}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxbfcode{\sphinxupquote{Headers}}}{\emph{\DUrole{n}{headers}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Interface for HTTP/1.x headers object.
+\index{\_\_init\_\_() (Headers method)@\spxentry{\_\_init\_\_()}\spxextra{Headers method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.Headers.__init__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_init\_\_}}}{\emph{\DUrole{n}{headers}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Initializes the Headers object.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{value}} \textendash{} Dictionary, headers, or None object that represents the headers.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\begin{center}\sphinxstylestrong{Properties}
+\end{center}\index{string() (Headers property)@\spxentry{string()}\spxextra{Headers property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.Headers.string}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{string}}}
+String representation of the Headers.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+String representation of the Headers.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{raw() (Headers property)@\spxentry{raw()}\spxextra{Headers property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.Headers.raw}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{raw}}}
+Bytes representation of the Headers.
+
+\begin{sphinxadmonition}{note}{Note:}
+This method will return Headers with “rn” escape characters.
+\end{sphinxadmonition}
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+Bytes representation of the Headers.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\begin{center}\sphinxstylestrong{Operations}
+\end{center}
+All of the operations below evaluate to true unless specificed.
+\index{\_\_add\_\_() (Headers.httpsuite.interface.Headers method)@\spxentry{\_\_add\_\_()}\spxextra{Headers.httpsuite.interface.Headers method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.Headers.httpsuite.interface.Headers.__add__}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{httpsuite.interface.Headers.}}\sphinxbfcode{\sphinxupquote{\_\_add\_\_}}}{}{}~
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{Headers}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hello}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{world}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{\PYGZcb{}}\PYG{p}{)} \PYG{o}{+} \PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hey}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{you}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{\PYGZcb{}} \PYG{o}{==} \PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hello}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{world}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hey}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{you}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
+\index{\_\_iadd\_\_() (Headers.httpsuite.interface.Headers method)@\spxentry{\_\_iadd\_\_()}\spxextra{Headers.httpsuite.interface.Headers method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.Headers.httpsuite.interface.Headers.__iadd__}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{httpsuite.interface.Headers.}}\sphinxbfcode{\sphinxupquote{\_\_iadd\_\_}}}{}{}~
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{h} \PYG{o}{=} \PYG{n}{Headers}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hello}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{world}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{\PYGZcb{}}\PYG{p}{)}
+\PYG{n}{h} \PYG{o}{+}\PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hey}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{you}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{\PYGZcb{}}
+\PYG{n}{h} \PYG{o}{==} \PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hello}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{world}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hey}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{you}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
+
+Setting and getting attributes automatically uses \sphinxcode{\sphinxupquote{\_}} as the same as \sphinxcode{\sphinxupquote{\sphinxhyphen{}}}.
+\index{\_\_setattr\_\_() (Headers.httpsuite.interface.Headers method)@\spxentry{\_\_setattr\_\_()}\spxextra{Headers.httpsuite.interface.Headers method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.Headers.httpsuite.interface.Headers.__setattr__}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{httpsuite.interface.Headers.}}\sphinxbfcode{\sphinxupquote{\_\_setattr\_\_}}}{}{}~
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{h} \PYG{o}{=} \PYG{n}{Headers}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hello}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{world}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{\PYGZcb{}}\PYG{p}{)}
+\PYG{n}{h}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{hello\PYGZhy{}world}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{ola mundo}\PYG{l+s+s1}{\PYGZsq{}}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
+\index{\_\_getattr\_\_() (Headers.httpsuite.interface.Headers method)@\spxentry{\_\_getattr\_\_()}\spxextra{Headers.httpsuite.interface.Headers method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.Headers.httpsuite.interface.Headers.__getattr__}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{httpsuite.interface.Headers.}}\sphinxbfcode{\sphinxupquote{\_\_getattr\_\_}}}{}{}~
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{h} \PYG{o}{=} \PYG{n}{Headers}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hello}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{world}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{\PYGZcb{}}\PYG{p}{)}
+\PYG{n}{h}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{hello\PYGZhy{}world}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{ola mundo}\PYG{l+s+s1}{\PYGZsq{}}
+\PYG{n}{h}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{hello\PYGZhy{}world}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{n}{h}\PYG{o}{.}\PYG{n}{hello\PYGZus{}world}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
+\index{\_\_str\_\_() (Headers.httpsuite.interface.Headers method)@\spxentry{\_\_str\_\_()}\spxextra{Headers.httpsuite.interface.Headers method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.Headers.httpsuite.interface.Headers.__str__}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{httpsuite.interface.Headers.}}\sphinxbfcode{\sphinxupquote{\_\_str\_\_}}}{}{}~
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{Headers}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hello}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{world}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{\PYGZcb{}}\PYG{p}{)}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} \PYGZsq{}hello: world\PYGZsq{}}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
+\index{\_\_repr\_\_() (Headers.httpsuite.interface.Headers method)@\spxentry{\_\_repr\_\_()}\spxextra{Headers.httpsuite.interface.Headers method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.Headers.httpsuite.interface.Headers.__repr__}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{httpsuite.interface.Headers.}}\sphinxbfcode{\sphinxupquote{\_\_repr\_\_}}}{}{}~
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{repr}\PYG{p}{(}\PYG{n}{Headers}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{hello}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{world}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{\PYGZcb{}}\PYG{p}{)}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} \PYGZsq{}Headers(hello: world)\PYGZsq{}}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
 
 
 \bigskip\hrule\bigskip
 
+\index{TwoWayFrozenDict (class in httpsuite.interface)@\spxentry{TwoWayFrozenDict}\spxextra{class in httpsuite.interface}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.TwoWayFrozenDict}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxbfcode{\sphinxupquote{TwoWayFrozenDict}}}{\emph{\DUrole{n}{dictionary}\DUrole{o}{=}\DUrole{default_value}{\{\}}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+A frozen dictionary with two\sphinxhyphen{}way capabilities. Locks a dictionary in place after
+initilization, and provides accessability via key and value.
+
+\begin{sphinxadmonition}{note}{Note:}
+All the keys and values inside TwoWayFrozenDict are Item objects, which allows easy
+comparissions to check if an item is inside the TwoWayFrozenDict mapping.
+\end{sphinxadmonition}
+
+\end{fulllineitems}
+
 
 
 \bigskip\hrule\bigskip
+
+\index{FrozenSet (class in httpsuite.interface)@\spxentry{FrozenSet}\spxextra{class in httpsuite.interface}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{module/interface:httpsuite.interface.FrozenSet}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxbfcode{\sphinxupquote{FrozenSet}}}
+A frozen set with pretty\sphinxhyphen{}print.
+
+\end{fulllineitems}
 
 
 
@@ -696,6 +1110,13 @@ Initial commit.
 \end{sphinxVerbatim}
 
 
+\renewcommand{\indexname}{Python Module Index}
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+\bigletter{h}
+\item\relax\sphinxstyleindexentry{httpsuite.http}\sphinxstyleindexpageref{module/http:\detokenize{module-httpsuite.http}}
+\item\relax\sphinxstyleindexentry{httpsuite.interface}\sphinxstyleindexpageref{module/interface:\detokenize{module-httpsuite.interface}}
+\end{sphinxtheindex}
 
 \renewcommand{\indexname}{Index}
 \printindex

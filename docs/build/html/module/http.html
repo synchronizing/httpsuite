@@ -145,9 +145,194 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">httpsuite.http</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 </pre></div>
 </div>
+<span class="target" id="module-httpsuite.http"></span><p>Classes for parsing, modifying, and re-compiling HTTP messages.</p>
 <hr class="docutils"/>
+<dl class="py class">
+<dt id="httpsuite.http.Message">
+<em class="property">class </em><code class="sig-name descname">Message</code><span class="sig-paren">(</span><em class="sig-param">abc.ABC</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/httpsuite/http.html#Message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.http.Message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract class that contains shared methods and properties accessible by
+both the Request and Response classes.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This class is not intended to be used by itself. Note that Message is
+an abstraction that represents the shared properties and methods of
+both a Request and Response instance. All functions displayed in
+Message are, therefore, accessible by both the Request and Response
+classes.</p>
+</div>
+<dl class="py method">
+<dt id="httpsuite.http.Message.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">protocol</span></em>, <em class="sig-param"><span class="n">headers</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">body</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/httpsuite/http.html#Message.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.http.Message.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes an HTTP Message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>protocol</strong> – “&lt;major&gt;.&lt;minor&gt;” numbering scheme to indicate versions of the protocol.</p></li>
+<li><p><strong>headers</strong> – Collection of case-insensitive name followed by a colon (:).</p></li>
+<li><p><strong>body</strong> – Data associated with the message.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<p class="centered">
+<strong><strong>Parse</strong></strong></p><dl class="py method">
+<dt id="httpsuite.http.Message.httpsuite.http.Message.parse">
+<code class="sig-prename descclassname">httpsuite.http.Message.</code><code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span></em><span class="sig-paren">)</span><a class="headerlink" href="#httpsuite.http.Message.httpsuite.http.Message.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the passed <code class="docutils literal notranslate"><span class="pre">messaged</span></code> into a <code class="docutils literal notranslate"><span class="pre">cls</span></code> instance (either a <a class="reference internal" href="#httpsuite.http.Request" title="httpsuite.http.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a> or <a class="reference internal" href="#httpsuite.http.Response" title="httpsuite.http.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a> object).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – The primative or object to convert into a Request or Response object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An initialized object of class <code class="docutils literal notranslate"><span class="pre">cls</span></code>.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RequiredAwait</strong> – Attempting to parse asynchronous object without ‘await’ statement.</p>
+</dd>
+</dl>
+</dd></dl>
+<p class="centered">
+<strong><strong>Properties</strong></strong></p><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">httpsuite.http.Message.raw()</span></code> function will return the message with proper <code class="docutils literal notranslate"><span class="pre">\r\n</span></code> escape characters. It can be
+used directly with <code class="docutils literal notranslate"><span class="pre">sockets</span></code> or any low-level communication system that requires properly formatted HTTP
+messages.</p>
+</div>
+<dl class="py method">
+<dt id="httpsuite.http.Message.string">
+<em class="property">property </em><code class="sig-name descname">string</code><a class="headerlink" href="#httpsuite.http.Message.string" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of the Message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Message as a string, without any arrows.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.http.Message.raw">
+<em class="property">property </em><code class="sig-name descname">raw</code><a class="headerlink" href="#httpsuite.http.Message.raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bytes representation of the Message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Message as a bytes, without arrows, properly escaped.</p>
+</dd>
+</dl>
+</dd></dl>
+<p class="centered">
+<strong><strong>HTTP</strong></strong></p><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All HTTP properties are saved as an <code class="xref py py-class docutils literal notranslate"><span class="pre">Item</span></code> type. Modification and comparissons can be done on the fly.</p>
+</div>
+<dl class="py method">
+<dt id="httpsuite.http.Message.protocol">
+<em class="property">property </em><code class="sig-name descname">protocol</code><a class="headerlink" href="#httpsuite.http.Message.protocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Protocol of the message.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.http.Message.headers">
+<em class="property">property </em><code class="sig-name descname">headers</code><a class="headerlink" href="#httpsuite.http.Message.headers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Headers of the message.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.http.Message.body">
+<em class="property">property </em><code class="sig-name descname">body</code><a class="headerlink" href="#httpsuite.http.Message.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Body of the message.</p>
+</dd></dl>
+</dd></dl>
 <hr class="docutils"/>
+<dl class="py class">
+<dt id="httpsuite.http.Request">
+<em class="property">class </em><code class="sig-name descname">Request</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Message</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/httpsuite/http.html#Request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.http.Request" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="httpsuite.http.Request.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">method</span></em>, <em class="sig-param"><span class="n">target</span></em>, <em class="sig-param"><span class="n">protocol</span></em>, <em class="sig-param"><span class="n">headers</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">body</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/httpsuite/http.html#Request.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.http.Request.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Python object representation of an HTTP/1.x request.”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> – Indicates the desired action on the server’s resource.</p></li>
+<li><p><strong>target</strong> – Resource location in the server for which the client is requesting.</p></li>
+<li><p><strong>protocol</strong> – “&lt;major&gt;.&lt;minor&gt;” numbering scheme to indicate versions of the protocol.</p></li>
+<li><p><strong>headers</strong> – Collection of case-insensitive name followed by a colon (:).</p></li>
+<li><p><strong>body</strong> – Data associated with the message.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.http.Request.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/httpsuite/http.html#Request.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.http.Request.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of the Request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Representation of the Request object with pretty-print (→) arrows.</p>
+</dd>
+</dl>
+</dd></dl>
+<p class="centered">
+<strong><strong>HTTP</strong></strong></p><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that Request is a child object of a Message and therefore has access to <a class="reference internal" href="#httpsuite.http.Message.headers" title="httpsuite.http.Message.headers"><code class="xref py py-attr docutils literal notranslate"><span class="pre">httpsuite.http.Message.headers</span></code></a>,
+<a class="reference internal" href="#httpsuite.http.Message.headers" title="httpsuite.http.Message.headers"><code class="xref py py-attr docutils literal notranslate"><span class="pre">httpsuite.http.Message.headers</span></code></a>, and <a class="reference internal" href="#httpsuite.http.Message.body" title="httpsuite.http.Message.body"><code class="xref py py-attr docutils literal notranslate"><span class="pre">httpsuite.http.Message.body</span></code></a>.</p>
+</div>
+<dl class="py method">
+<dt id="httpsuite.http.Request.method">
+<em class="property">property </em><code class="sig-name descname">method</code><a class="headerlink" href="#httpsuite.http.Request.method" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method of the HTTP request.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.http.Request.target">
+<em class="property">property </em><code class="sig-name descname">target</code><a class="headerlink" href="#httpsuite.http.Request.target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Target of the HTTP request.</p>
+</dd></dl>
+</dd></dl>
 <hr class="docutils"/>
+<dl class="py class">
+<dt id="httpsuite.http.Response">
+<em class="property">class </em><code class="sig-name descname">Response</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">protocol</span></em>, <em class="sig-param"><span class="n">status</span></em>, <em class="sig-param"><span class="n">status_msg</span></em>, <em class="sig-param"><span class="n">headers</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">body</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/httpsuite/http.html#Response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.http.Response" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="httpsuite.http.Response.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">protocol</span></em>, <em class="sig-param"><span class="n">status</span></em>, <em class="sig-param"><span class="n">status_msg</span></em>, <em class="sig-param"><span class="n">headers</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">body</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/httpsuite/http.html#Response.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.http.Response.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Python object representation of an HTTP/1.x response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>protocol</strong> – “&lt;major&gt;.&lt;minor&gt;” numbering scheme to indicate versions of the protocol.</p></li>
+<li><p><strong>status</strong> – Numberical value designating a specific return value.</p></li>
+<li><p><strong>status_msg</strong> – Message related to the status code.</p></li>
+<li><p><strong>headers</strong> – Collection of case-insensitive name followed by a colon (:).</p></li>
+<li><p><strong>body</strong> – Data associated with the message.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.http.Response.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/httpsuite/http.html#Response.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.http.Response.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of the Response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Representation of the Response object with pretty-print (←) arrows.</p>
+</dd>
+</dl>
+</dd></dl>
+<p class="centered">
+<strong><strong>HTTP</strong></strong></p><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that Response is a child object of a Message and therefore has access to <a class="reference internal" href="#httpsuite.http.Message.headers" title="httpsuite.http.Message.headers"><code class="xref py py-attr docutils literal notranslate"><span class="pre">httpsuite.http.Message.headers</span></code></a>,
+<a class="reference internal" href="#httpsuite.http.Message.headers" title="httpsuite.http.Message.headers"><code class="xref py py-attr docutils literal notranslate"><span class="pre">httpsuite.http.Message.headers</span></code></a>, and <a class="reference internal" href="#httpsuite.http.Message.body" title="httpsuite.http.Message.body"><code class="xref py py-attr docutils literal notranslate"><span class="pre">httpsuite.http.Message.body</span></code></a>.</p>
+</div>
+<dl class="py method">
+<dt id="httpsuite.http.Response.status">
+<em class="property">property </em><code class="sig-name descname">status</code><a class="headerlink" href="#httpsuite.http.Response.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Status of the HTTP response.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.http.Response.status_msg">
+<em class="property">property </em><code class="sig-name descname">status_msg</code><a class="headerlink" href="#httpsuite.http.Response.status_msg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Status message of the HTTP response.</p>
+</dd></dl>
+</dd></dl>
 </div>
 
       </article>

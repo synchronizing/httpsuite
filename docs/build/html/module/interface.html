@@ -145,9 +145,116 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">httpsuite.interface</span> <span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Headers</span><span class="p">,</span> <span class="n">TwoWayFrozenDict</span><span class="p">,</span> <span class="n">FrozenSet</span>
 </pre></div>
 </div>
+<span class="target" id="module-httpsuite.interface"></span><p>Lower-level interfaces that <code class="docutils literal notranslate"><span class="pre">httpsuite</span></code> depedents on.</p>
 <hr class="docutils"/>
+<dl class="py class">
+<dt id="httpsuite.interface.Headers">
+<em class="property">class </em><code class="sig-name descname">Headers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">headers</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/httpsuite/interface.html#Headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.interface.Headers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interface for HTTP/1.x headers object.</p>
+<dl class="py method">
+<dt id="httpsuite.interface.Headers.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">headers</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/httpsuite/interface.html#Headers.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.interface.Headers.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the Headers object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Dictionary, headers, or None object that represents the headers.</p>
+</dd>
+</dl>
+</dd></dl>
+<p class="centered">
+<strong><strong>Properties</strong></strong></p><dl class="py method">
+<dt id="httpsuite.interface.Headers.string">
+<em class="property">property </em><code class="sig-name descname">string</code><a class="headerlink" href="#httpsuite.interface.Headers.string" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of the Headers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>String representation of the Headers.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.interface.Headers.raw">
+<em class="property">property </em><code class="sig-name descname">raw</code><a class="headerlink" href="#httpsuite.interface.Headers.raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bytes representation of the Headers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method will return Headers with “rn” escape characters.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Bytes representation of the Headers.</p>
+</dd>
+</dl>
+</dd></dl>
+<p class="centered">
+<strong><strong>Operations</strong></strong></p><p>All of the operations below evaluate to true unless specificed.</p>
+<dl class="py method">
+<dt id="httpsuite.interface.Headers.httpsuite.interface.Headers.__add__">
+<code class="sig-prename descclassname">httpsuite.interface.Headers.</code><code class="sig-name descname">__add__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#httpsuite.interface.Headers.httpsuite.interface.Headers.__add__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Headers</span><span class="p">({</span><span class="s2">"hello"</span><span class="p">:</span> <span class="s2">"world"</span><span class="p">})</span> <span class="o">+</span> <span class="p">{</span><span class="s2">"hey"</span><span class="p">:</span> <span class="s2">"you"</span><span class="p">}</span> <span class="o">==</span> <span class="p">{</span><span class="s2">"hello"</span><span class="p">:</span> <span class="s2">"world"</span><span class="p">,</span> <span class="s2">"hey"</span><span class="p">:</span> <span class="s2">"you"</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.interface.Headers.httpsuite.interface.Headers.__iadd__">
+<code class="sig-prename descclassname">httpsuite.interface.Headers.</code><code class="sig-name descname">__iadd__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#httpsuite.interface.Headers.httpsuite.interface.Headers.__iadd__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="o">=</span> <span class="n">Headers</span><span class="p">({</span><span class="s2">"hello"</span><span class="p">:</span> <span class="s2">"world"</span><span class="p">})</span>
+<span class="n">h</span> <span class="o">+=</span> <span class="p">{</span><span class="s2">"hey"</span><span class="p">:</span> <span class="s2">"you"</span><span class="p">}</span>
+<span class="n">h</span> <span class="o">==</span> <span class="p">{</span><span class="s2">"hello"</span><span class="p">:</span> <span class="s2">"world"</span><span class="p">,</span> <span class="s2">"hey"</span><span class="p">:</span> <span class="s2">"you"</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+<p>Setting and getting attributes automatically uses <code class="docutils literal notranslate"><span class="pre">_</span></code> as the same as <code class="docutils literal notranslate"><span class="pre">-</span></code>.</p>
+<dl class="py method">
+<dt id="httpsuite.interface.Headers.httpsuite.interface.Headers.__setattr__">
+<code class="sig-prename descclassname">httpsuite.interface.Headers.</code><code class="sig-name descname">__setattr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#httpsuite.interface.Headers.httpsuite.interface.Headers.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="o">=</span> <span class="n">Headers</span><span class="p">({</span><span class="s2">"hello"</span><span class="p">:</span> <span class="s2">"world"</span><span class="p">})</span>
+<span class="n">h</span><span class="p">[</span><span class="s1">'hello-world'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'ola mundo'</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.interface.Headers.httpsuite.interface.Headers.__getattr__">
+<code class="sig-prename descclassname">httpsuite.interface.Headers.</code><code class="sig-name descname">__getattr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#httpsuite.interface.Headers.httpsuite.interface.Headers.__getattr__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="o">=</span> <span class="n">Headers</span><span class="p">({</span><span class="s2">"hello"</span><span class="p">:</span> <span class="s2">"world"</span><span class="p">})</span>
+<span class="n">h</span><span class="p">[</span><span class="s1">'hello-world'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'ola mundo'</span>
+<span class="n">h</span><span class="p">[</span><span class="s1">'hello-world'</span><span class="p">]</span> <span class="o">==</span> <span class="n">h</span><span class="o">.</span><span class="n">hello_world</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.interface.Headers.httpsuite.interface.Headers.__str__">
+<code class="sig-prename descclassname">httpsuite.interface.Headers.</code><code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#httpsuite.interface.Headers.httpsuite.interface.Headers.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">str</span><span class="p">(</span><span class="n">Headers</span><span class="p">({</span><span class="s2">"hello"</span><span class="p">:</span> <span class="s2">"world"</span><span class="p">}))</span> <span class="c1"># 'hello: world'</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="httpsuite.interface.Headers.httpsuite.interface.Headers.__repr__">
+<code class="sig-prename descclassname">httpsuite.interface.Headers.</code><code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#httpsuite.interface.Headers.httpsuite.interface.Headers.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">repr</span><span class="p">(</span><span class="n">Headers</span><span class="p">({</span><span class="s2">"hello"</span><span class="p">:</span> <span class="s2">"world"</span><span class="p">}))</span> <span class="c1"># 'Headers(hello: world)'</span>
+</pre></div>
+</div>
+</dd></dl>
+</dd></dl>
 <hr class="docutils"/>
+<dl class="py class">
+<dt id="httpsuite.interface.TwoWayFrozenDict">
+<em class="property">class </em><code class="sig-name descname">TwoWayFrozenDict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dictionary</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/httpsuite/interface.html#TwoWayFrozenDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.interface.TwoWayFrozenDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>A frozen dictionary with two-way capabilities. Locks a dictionary in place after
+initilization, and provides accessability via key and value.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All the keys and values inside TwoWayFrozenDict are Item objects, which allows easy
+comparissions to check if an item is inside the TwoWayFrozenDict mapping.</p>
+</div>
+</dd></dl>
 <hr class="docutils"/>
+<dl class="py class">
+<dt id="httpsuite.interface.FrozenSet">
+<em class="property">class </em><code class="sig-name descname">FrozenSet</code><a class="reference internal" href="../_modules/httpsuite/interface.html#FrozenSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#httpsuite.interface.FrozenSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>A frozen set with pretty-print.</p>
+</dd></dl>
 </div>
 
       </article>
